@@ -1,0 +1,44 @@
+﻿@model Medinova.Models.AboutItem
+@{
+    ViewBag.Title = "CreateAboutItem";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Hakkımızda Detay Ekleme</h4>
+                <p class="mb-0 section-subtitle">
+                    Hakkımızda detayları ekleme işlemlerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label>Başlık</label>
+                @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3">
+                <label>Icon (FontAwesome Class)</label>
+                @Html.TextBoxFor(x => x.Icon, new { @class = "form-control" })
+                <small class="text-muted"> Örn: fa fa-3x fa-user-md text-primary mb-3</small>
+            </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 d-flex justify-content-end gap-2">
+            <button class="btn btn-primary" style="margin-right:10px;">Oluştur</button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
+        </div>
+    </div>
+}
+
+
+
+

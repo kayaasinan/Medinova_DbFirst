@@ -1,0 +1,43 @@
+﻿@*
+    Admin Script
+*@
+
+<script src="~/Templates/Breeze/template/assets/vendors/js/vendor.bundle.base.js"></script>
+
+<script src="~/Templates/Breeze/template/assets/vendors/chart.js/Chart.min.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.resize.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.categories.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.stack.js"></script>
+<script src="~/Templates/Breeze/template/assets/vendors/flot/jquery.flot.pie.js"></script>
+
+<script src="~/Templates/Breeze/template/assets/js/chart.js"></script>
+
+<script src="~/Templates/Breeze/template/assets/js/off-canvas.js"></script>
+<script src="~/Templates/Breeze/template/assets/js/hoverable-collapse.js"></script>
+<script src="~/Templates/Breeze/template/assets/js/misc.js"></script>
+
+<script src="~/Templates/Breeze/template/assets/js/dashboard.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+<script>
+    function confirmDelete(urlWithId) {
+        Swal.fire({
+            title: "Silmek istediğinizden emin misiniz?",
+            text: "Bu işlem geri alınamaz!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Evet, Sil!",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = urlWithId;
+            }
+        });
+    }
+</script>

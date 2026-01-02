@@ -1,0 +1,65 @@
+﻿@model List<MedicalPackage>
+
+<style>
+    .price-overlay {
+        background: rgba(29, 42, 77, 0.85);
+    }
+
+    .price-text {
+        color: #fff !important;
+        font-weight: 800;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 10;
+        text-shadow: 0 2px 6px rgba(0,0,0,.6);
+    }
+
+    .price-card {
+        height: 100%;
+    }
+
+    .price-header {
+        min-height: 170px; 
+    }
+</style>
+
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
+                Sağlık Paketleri
+            </h5>
+            <h1 class="display-4">
+                Ayrıcalıklı Sağlık Hizmetleri
+            </h1>
+        </div>
+
+        <div class="owl-carousel price-carousel position-relative" style="padding: 0 45px 45px 45px;">
+            @foreach (var item in Model)
+            {
+                <div class="bg-light rounded text-center price-card">
+
+            
+                    <div class="position-relative price-header">
+                        <img class="img-fluid rounded-top" src="@item.ImageUrl" alt="">
+                        <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center price-overlay">
+                            <h3 class="text-white mb-2">@item.PackageName</h3>
+                            <h1 class="display-4 price-text mb-0"> <small>₺</small>@item.Price <small> / Yıl</small></h1>
+                        </div>
+                    </div>
+                    <div class="text-center py-5">
+                        <p>@item.Feature1</p>
+                        <p>@item.Feature2</p>
+                        <p>@item.Feature3</p>
+                        <p>@item.Feature4</p>
+
+                        <a href="#!" class="btn btn-primary rounded-pill py-3 px-5 my-2">
+                            Başvur
+                        </a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

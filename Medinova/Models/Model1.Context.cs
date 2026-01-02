@@ -32,5 +32,9 @@ namespace Medinova.Models
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Testimonial> Testimonials { get; set; }
+        public virtual DbSet<MedicalPackage> MedicalPackages { get; set; }
+        public virtual DbSet<MedicalService> MedicalServices { get; set; }
     }
 }

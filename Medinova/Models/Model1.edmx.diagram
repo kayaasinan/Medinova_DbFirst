@@ -14,6 +14,10 @@
         <EntityTypeShape EntityType="MedinovaDbModel.sysdiagram" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="MedinovaDbModel.FK_Appointments_Doctors" />
         <AssociationConnector Association="MedinovaDbModel.FK_Doctors_Departments" />
+        <EntityTypeShape EntityType="MedinovaDbModel.User" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MedinovaDbModel.Testimonial" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MedinovaDbModel.MedicalPackage" Width="1.5" PointX="3.375" PointY="7.75" />
+        <EntityTypeShape EntityType="MedinovaDbModel.MedicalService" Width="1.5" PointX="5.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

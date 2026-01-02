@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@Html.Partial("~/Views/UILayoutPartial/_Head.cshtml")
+
+<body>
+
+    @Html.Partial("~/Views/UILayoutPartial/_Social.cshtml")
+
+    @Html.Partial("~/Views/UILayoutPartial/_Navbar.cshtml")
+
+    @RenderBody()
+
+    @Html.Partial("~/Views/UILayoutPartial/_Footer.cshtml")
+
+    @Html.Partial("~/Views/UILayoutPartial/_Script.cshtml")
+</body>
+
+</html>
