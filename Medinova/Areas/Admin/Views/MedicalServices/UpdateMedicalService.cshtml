@@ -1,15 +1,16 @@
-﻿@model Medinova.Models.About
+﻿@model Medinova.Models.MedicalService
 @{
-    ViewBag.Title = "UpdateAbout";
+    ViewBag.Title = "UpdateMedicalService";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="row mb-4">
     <div class="col-12">
         <div class="dashboard-section-header d-flex justify-content-between align-items-center">
             <div>
-                <h4 class="mb-1 section-title">Hakkımızda Güncelleme Sayfası</h4>
+                <h4 class="mb-1 section-title">Medikal Hizmet Güncelleme Sayfası</h4>
                 <p class="mb-0 section-subtitle">
-                    Hakkımızda alanı düzenlemelerini bu sayfadan yapabilirsiniz...
+                    Medikal hizmet düzenlemelerini bu sayfadan yapabilirsiniz...
                 </p>
             </div>
         </div>
@@ -18,25 +19,26 @@
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(x => x.AboutId)
+    @Html.HiddenFor(x => x.MedicalServiceId)
 
     <div class="mb-3">
-        <label>Başlık</label>
+        <label>Hizmet Adı</label>
         @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
     </div>
 
+    <div class="mb-3">
+        <label>Ikon</label>
+        @Html.TextBoxFor(x => x.Icon, new { @class = "form-control" })
+    </div>
     <div class="mb-3">
         <label>Açıklama</label>
         @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 5 })
     </div>
 
-    <div class="mb-3">
-        <label>Görsel Url</label>
-        @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
-    </div>
 
     <button class="btn btn-primary">Kaydet</button>
     <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
 }
+
 
 

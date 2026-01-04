@@ -160,12 +160,21 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AboutItemsController.cs" />
     <Compile Include="Areas\Admin\Controllers\AboutsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DoctorsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MedicalPackagesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MedicalServicesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TestimonialsController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Consts\Times.cs" />
+    <Compile Include="Controllers\MedicalPackageController.cs" />
+    <Compile Include="Controllers\MedicalServiceController.cs" />
     <Compile Include="DTOs\AppointmentAvailabilityDto.cs" />
     <Compile Include="DTOs\LoginDto.cs" />
     <Compile Include="Global.asax.cs">
@@ -181,6 +190,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Banner.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contact.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Department.cs">
@@ -278,6 +290,20 @@
     <Content Include="Areas\Admin\Views\AboutItems\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AboutItems\UpdateAboutItem.cshtml" />
     <Content Include="Areas\Admin\Views\AboutItems\CreateAboutItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\UpdateBanner.cshtml" />
+    <Content Include="Areas\Admin\Views\Doctors\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Doctors\UpdateDoctor.cshtml" />
+    <Content Include="Areas\Admin\Views\Doctors\CreateDoctor.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalPackages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalPackages\UpdateMedicalPackage.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalPackages\CreateMedicalPackage.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalServices\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalServices\UpdateMedicalService.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalServices\CreateMedicalService.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\UpdateTestimonial.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\CreateTestimonial.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1285,6 +1311,11 @@
     <Content Include="Templates\Breeze\template\assets\vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
     <Content Include="Templates\Breeze\template\package.json" />
     <Content Include="Templates\Breeze\template\assets\css\style.css.map" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\About\AboutItemPage.cshtml" />
+    <Content Include="Views\MedicalService\Index.cshtml" />
+    <Content Include="Views\MedicalPackage\Index.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

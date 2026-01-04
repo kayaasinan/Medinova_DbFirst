@@ -1,0 +1,19 @@
+﻿@model List<AboutItem>
+
+<div class="row g-3 pt-3">
+    @foreach (var item in Model)
+    {
+        var parts = item.Title.Split(' ');
+
+        <div class="col-sm-3 col-6">
+            <div class="bg-light text-center rounded-circle py-4">
+                <i class="fa fa-3x @item.Icon text-primary mb-3"></i>
+
+                <h6 class="mb-0">
+                    @parts[0]<small class="d-block text-primary">@string.Join(" ", parts.Skip(1))</small>
+                </h6>
+            </div>
+        </div>
+    }
+</div>
+

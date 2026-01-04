@@ -1,0 +1,77 @@
+﻿@model List<Medinova.Models.MedicalPackage>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Medikal Paketlerimiz</h4>
+                <p class="mb-0 section-subtitle">
+                    Medikal paket düzenlemelerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+            <a href="/Admin/MedicalPackages/CreateMedicalPackage" class="btn btn-outline-light rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
+                <i class="fa fa-plus-circle"></i>
+                Yeni Ekle
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid py-4">
+    <div class="container">
+        <div class="owl-carousel price-carousel">
+
+            @foreach (var item in Model)
+            {
+                <div class="px-2">
+                    <div class="bg-white shadow-sm rounded overflow-hidden">
+
+                        <div class="d-flex align-items-center">
+
+                            <div style="width:180px; flex-shrink:0;">
+                                <img src="@item.ImageUrl" class="img-fluid h-100 w-100" style="object-fit:cover;">
+                            </div>
+                            <div class="p-3 flex-grow-1">
+                                <h5 class="mb-1 fw-semibold">@item.PackageName</h5>
+                                <div class="text-primary fw-bold mb-2">
+                                    ₺@item.Price / Yıl
+                                </div>
+
+                                <div class="small text-muted">
+                                    <div>@item.Feature1</div>
+                                    <div>@item.Feature2</div>
+                                    <div>@item.Feature3</div>
+                                    <div>@item.Feature4</div>
+                                </div>
+                            </div>
+                            <div class="px-5 d-flex align-items-center">
+                                @if (item.IsActive == true)
+                                {
+                                    <span class="badge bg-success rounded-pill px-3">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary rounded-pill px-3">Pasif</span>
+                                }
+                            </div>
+                            <div class="px-3 d-flex align-items-center gap-2">
+                                <a href="/Admin/MedicalPackages/UpdateMedicalPackage/@item.MedicalPackagesId" class="btn btn-sm btn-outline-primary rounded-pill">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <button type="button" onclick="confirmDelete('/Admin/MedicalPackages/DeleteMedicalPackage/@item.MedicalPackagesId')" class="btn btn-sm btn-outline-danger rounded-pill">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

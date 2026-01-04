@@ -1,0 +1,39 @@
+﻿@model List<Medinova.Models.Banner>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Öne Çıkanlar</h4>
+                <p class="mb-0 section-subtitle">
+                    Öne çıkan alanı düzenlemelerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-4">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-12">
+            <div class="card h-100 shadow-sm border-0 w-100">
+                <img src="@item.ImageUrl" class="card-img-top" style="height:400px; object-fit:cover;" />
+                <div class="card-body">
+                    <h4 class="card-title mb-3">@item.Title</h4>
+                    <p class="card-text text-muted">@item.Description</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-end gap-2">
+                    <a href="/Admin/Banners/UpdateBanner/@item.BannerId" class="btn btn-outline-primary" style="margin-right:10px;">Düzenle</a>
+                    <button type="button" onclick="confirmDelete('/Admin/Banners/DeleteBanner/@item.BannerId')" class="btn btn-danger btn-circle">
+                        Sil
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

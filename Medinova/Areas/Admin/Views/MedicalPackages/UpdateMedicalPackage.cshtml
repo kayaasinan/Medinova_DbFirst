@@ -1,0 +1,57 @@
+﻿@model Medinova.Models.MedicalPackage
+@{
+    ViewBag.Title = "UpdateMedicalPackage";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Medikal Paketler Güncelleme Sayfası</h4>
+                <p class="mb-0 section-subtitle">
+                    Medikal paket düzenlemelerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.MedicalPackagesId)
+
+    <div class="mb-3">
+        <label>Paket Adı</label>
+        @Html.TextBoxFor(x => x.PackageName, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>İçerik 1</label>
+        @Html.TextBoxFor(x => x.Feature1, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>İçerik 2</label>
+        @Html.TextBoxFor(x => x.Feature2, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>İçerik 3</label>
+        @Html.TextBoxFor(x => x.Feature3, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>İçerik 4</label>
+        @Html.TextBoxFor(x => x.Feature4, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>Fiyat</label>
+        @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>Görsel Url</label>
+        @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+    </div>
+    
+
+    <button class="btn btn-primary">Kaydet</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
+}
+
