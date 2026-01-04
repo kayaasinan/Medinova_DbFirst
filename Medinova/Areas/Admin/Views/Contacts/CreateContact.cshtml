@@ -1,0 +1,50 @@
+﻿@model Medinova.Models.Contact
+@{
+    ViewBag.Title = "CreateContact";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">İletişim Bilgisi Ekleme Sayfası</h4>
+                <p class="mb-0 section-subtitle">
+                    İletişim bilgisi ekleme işlemlerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+
+    <div class="mb-3">
+        <label>Harita(Iframe Url)</label>
+        @Html.TextBoxFor(x => x.MapUrl, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        <label>Başlık</label>
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>Telefon</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        @Html.TextAreaFor(x => x.Email, new { @class = "form-control", rows = 5 })
+    </div>
+    <div class="mb-3">
+        <label>Adres</label>
+        @Html.TextAreaFor(x => x.Address, new { @class = "form-control", rows = 5 })
+    </div>
+
+
+    <button class="btn btn-primary">Kaydet</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
+}
+
+

@@ -1,18 +1,19 @@
-﻿@model List<Medinova.Models.MedicalService>
+﻿@model List<Medinova.Models.Contact>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="row mb-4">
     <div class="col-12">
         <div class="dashboard-section-header d-flex justify-content-between align-items-center">
             <div>
-                <h4 class="mb-1 section-title">Medikal Hizmetlerimiz</h4>
+                <h4 class="mb-1 section-title">İletişim Bilgilerimiz</h4>
                 <p class="mb-0 section-subtitle">
-                    Medikal hizmet düzenlemelerini bu sayfadan yapabilirsiniz...
+                    İletişim bilgilerimi düzenlemelerini bu sayfadan yapabilirsiniz...
                 </p>
             </div>
-            <a href="/Admin/MedicalServices/CreateMedicalService" class="btn btn-outline-light rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
+            <a href="/Admin/Contacts/CreateContact" class="btn btn-outline-light rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
                 <i class="fa fa-plus-circle"></i>
                 Yeni Ekle
             </a>
@@ -24,9 +25,10 @@
         <table class="table table-borderless align-middle">
             <thead class="fw-semibold text-dark">
                 <tr>
-                    <th>Ikon</th>
-                    <th>Başlık</th>
-                    <th>Açıklama</th>
+                    <th>Harita</th>
+                    <th>EMail</th>
+                    <th>Telefon</th>
+                    <th>Adres</th>
                     <th>İşlemler</th>
 
                 </tr>
@@ -35,19 +37,23 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                 
+
 
                     <tr class="align-middle">
-                        <td><i class="@item.Icon text-primary "></i></td>
-                        <td>@item.Title </td>
-                        <td>@(item.Description.Length > 40 ? item.Description.Substring(0, 40) + "..." : item.Description)  </td>
+                        <td>
+                            <iframe src="@item.MapUrl" width="150" height="150" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </td>
+                        <td>@item.Email </td>
+                        <td>@item.Phone </td>
+                        <td>@(item.Address.Length > 40 ? item.Address.Substring(0, 40) + "..." : item.Address)  </td>
                         <td class="text-center">
-                            <button type="button" onclick="confirmDelete('/Admin/MedicalServices/DeleteMedicalService/@item.MedicalServiceId')" class="btn btn-danger btn-circle">
+                            <button type="button" onclick="confirmDelete('/Admin/Contacts/DeleteContact/@item.ContactId')" class="btn btn-danger btn-circle">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
                         <td>
-                            <a href="/Admin/MedicalServices/UpdateMedicalService/@item.MedicalServiceId" class="btn btn-primary btn-circle">
+                            <a href="/Admin/Contacts/UpdateContact/@item.ContactId" class="btn btn-primary btn-circle">
                                 <i class="bi bi-pencil"></i>
                             </a>
                         </td>
@@ -58,7 +64,6 @@
         </table>
     </div>
 </div>
-
 
 
 

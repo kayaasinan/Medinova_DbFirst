@@ -161,6 +161,7 @@
     <Compile Include="Areas\Admin\Controllers\AboutItemsController.cs" />
     <Compile Include="Areas\Admin\Controllers\AboutsController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DoctorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MedicalPackagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MedicalServicesController.cs" />
@@ -304,6 +305,9 @@
     <Content Include="Areas\Admin\Views\Testimonials\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Testimonials\UpdateTestimonial.cshtml" />
     <Content Include="Areas\Admin\Views\Testimonials\CreateTestimonial.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\CreateContact.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\UpdateContact.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
