@@ -1,19 +1,59 @@
 ﻿<div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-            <a href="index.html" class="navbar-brand">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-clinic-medical me-2"></i>Medinova</h1>
+            <a href="/Default/Index" class="navbar-brand">
+                <h1 class="m-0 text-uppercase text-primary">
+                    <i class="fa fa-clinic-medical me-2"></i>Medinova
+                </h1>
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="/Default/Index" class="nav-item nav-link ">Ana Sayfa</a>
+                <div class="navbar-nav me-auto py-0">
+                    <a href="/Default/Index" class="nav-item nav-link">Ana Sayfa</a>
                     <a href="/About/Index" class="nav-item nav-link">Hakkımızda</a>
                     <a href="/MedicalService/Index" class="nav-item nav-link">Hizmetlerimiz</a>
                     <a href="/MedicalPackage/Index" class="nav-item nav-link">Paketler</a>
                     <a href="/Contact/Index" class="nav-item nav-link">İletişim</a>
+                </div>
+
+                <div class="navbar-nav ms-auto py-0 align-items-center">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (Session["Role"]?.ToString() == "Admin")
+                        {
+                            <a href="/Admin/Abouts/Index" class="nav-item nav-link fw-semibold text-primary">
+                                Admin Panel
+                            </a>
+                        }
+                        else if (Session["Role"]?.ToString() == "Doctor")
+                        {
+                            <a href="/Doctor/Dashboard/Index" class="nav-item nav-link fw-semibold text-primary">
+                                Doktor Panel
+                            </a>
+                        }
+                        else if (Session["Role"]?.ToString() == "Patient")
+                        {
+                            <a href="/Patient/Home/Index" class="nav-item nav-link fw-semibold text-primary">
+                                Hasta Panel
+                            </a>
+                        }
+
+                        <a href="/Account/Logout" class="btn btn-outline-danger ms-3">
+                            Çıkış Yap
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Account/Login" class="btn btn-primary ms-3">
+                            Giriş Yap
+                        </a>
+                    }
+
                 </div>
             </div>
         </nav>
