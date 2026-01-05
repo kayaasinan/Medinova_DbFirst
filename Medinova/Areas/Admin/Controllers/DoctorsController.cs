@@ -1,10 +1,13 @@
-﻿using Medinova.Models;
+﻿using Medinova.Consts;
+using Medinova.Filters;
+using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
+    [AuthorizeRole(Roles.Admin)]
     public class DoctorsController : Controller
     {
         private readonly IGenericRepository<Models.Doctor> _doctorRepo;

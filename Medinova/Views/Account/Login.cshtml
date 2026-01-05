@@ -1,36 +1,86 @@
 ﻿@model Medinova.DTOs.LoginDto
 @{
     ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h4 class="text-center mb-4">Giriş Yap</h4>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Giriş Paneli</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-                    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
-                    {
-                        <div class="mb-3">
-                            <label>Kullanıcı Adı</label>
-                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
-                        </div>
+    <link rel="icon" type="image/png" href="~/Templates/Login_v3/images/icons/favicon.ico" />
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/animate/animate.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/select2/select2.min.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/css/util.css">
+    <link rel="stylesheet" href="~/Templates/Login_v3/css/main.css">
+</head>
 
-                        <div class="mb-3">
-                            <label>Şifre</label>
-                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                        </div>
+<body>
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('@Url.Content("~/Templates/Login_v3/images/bg-01.jpg")');">
+            <div class="wrap-login100">
 
-                        <button class="btn btn-primary w-100">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form" }))
+                {
+                    <span class="login100-form-logo">
+                        <i class="zmdi zmdi-landscape"></i>
+                    </span>
+
+                    <span class="login100-form-title p-b-34 p-t-27">
+                        Giriş Yap
+                    </span>
+
+                    <div class="wrap-input100 validate-input" data-validate="Kullanıcı adı giriniz">
+                        @Html.TextBoxFor(x => x.UserName, new
+                        {
+                            @class = "input100",
+                            placeholder = "Kullanıcı Adı"
+                        })
+                        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Şifre giriniz">
+                        @Html.PasswordFor(x => x.Password, new
+                        {
+                            @class = "input100",
+                            placeholder = "Şifre"
+                        })
+                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger text-center mb-3" })
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
                             Giriş Yap
                         </button>
-                    }
-                </div>
+                    </div>
+
+                }
+
             </div>
         </div>
     </div>
-</div>
+
+    <script src="~/Templates/Login_v3/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/Templates/Login_v3/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Templates/Login_v3/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Templates/Login_v3/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Templates/Login_v3/vendor/select2/select2.min.js"></script>
+    <script src="~/Templates/Login_v3/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/Templates/Login_v3/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Templates/Login_v3/vendor/countdowntime/countdowntime.js"></script>
+    <script src="~/Templates/Login_v3/js/main.js"></script>
+
+</body>
+</html>

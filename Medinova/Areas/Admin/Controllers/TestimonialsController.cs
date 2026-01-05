@@ -1,9 +1,12 @@
-﻿using Medinova.Models;
+﻿using Medinova.Consts;
+using Medinova.Filters;
+using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
+    [AuthorizeRole(Roles.Admin)]
     public class TestimonialsController : Controller
     {
         private readonly IGenericRepository<Testimonial> _repo;

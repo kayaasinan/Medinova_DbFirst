@@ -1,11 +1,12 @@
-﻿using Medinova.Models;
+﻿using Medinova.Consts;
+using Medinova.Filters;
+using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
-
-    [RouteArea("Admin")]
+    [AuthorizeRole(Roles.Admin)]
     public class AboutsController : Controller
     {
         private readonly IGenericRepository<About> _repo;
