@@ -1,0 +1,134 @@
+﻿@model List<Medinova.Models.Appointment>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Patient/Views/Shared/_PatientLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Randevularım</h4>
+                <p class="mb-0 section-subtitle">
+                    Randevu düzenlemelerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Saat</th>
+                        <th>Doktor</th>
+                        <th>İletişim</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                Henüz oluşturulmuş bir randevunuz bulunmamaktadır.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                <tr>
+                    <td>
+                        @(item.AppointmentDate.HasValue? item.AppointmentDate.Value.ToString("dd.MM.yyyy"): "-")
+                    </td>
+
+                    <td>
+                        <span class="fw-semibold">
+                            @item.AppointmentTime
+                        </span>
+                    </td>
+
+                    <td>
+                        @item.Doctor.FullName
+                    </td>
+
+                    <td>
+                        <div class="small text-muted">
+                            <div>@item.PhoneNumber</div>
+                            <div>@item.Email</div>
+                        </div>
+                    </td>
+
+                    <td>
+                        @if (item.IsActive == true)
+                        {
+                            <span class="badge bg-success">
+                                Aktif
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Pasif
+                            </span>
+                        }
+                    </td>
+
+                    <td class="text-end">
+                        @if (item.IsActive == true)
+                        {
+                            <a href="javascript:void(0)" onclick="confirmPassive(@item.AppointmentId)" class="btn btn-outline-danger btn-sm">
+                                Pasif Yap
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0)" onclick="cannotActivate()" class="btn btn-outline-primary btn-sm">
+                                Aktif Et
+                            </a>
+                        }
+                    </td>
+
+                </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmPassive(id) {
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu randevuyu pasif yaparsanız saat tekrar müsait olur ve başka bir hasta bu saati alabilir.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, Pasif Yap',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Patient/MyAppointments/MakePassive/' + id;
+            }
+        });
+    }
+</script>
+
+<script>
+    function cannotActivate() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Bilgilendirme',
+            text: 'Pasif yaptığınız randevular tekrar aktif edilemez. Bu saat başka bir hasta tarafından alınmış olabilir. Lütfen ana sayfadan yeni bir randevu oluşturunuz.',
+            confirmButtonText: 'Tamam'
+        });
+    }
+</script>

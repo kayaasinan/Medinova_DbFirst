@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("~/Areas/Patient/Views/PatientLayoutPartial/_PatientLayoutHead.cshtml")
+<body>
+    <div class="container-scroller">
+        @Html.Partial("~/Areas/Patient/Views/PatientLayoutPartial/_PatientLayoutSidebar.cshtml")
+        <div class="container-fluid page-body-wrapper">
+            @Html.Partial("~/Areas/Patient/Views/PatientLayoutPartial/_PatientLayoutHeader.cshtml")
+            <div class="main-panel">
+                <div class="content-wrapper pb-0">
+                    @RenderBody()
+                </div>
+                @Html.Partial("~/Areas/Patient/Views/PatientLayoutPartial/_PatientLayoutFooter.cshtml")
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Patient/Views/PatientLayoutPartial/_PatientLayoutScript.cshtml")
+</body>
+</html>

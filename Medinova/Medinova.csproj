@@ -167,6 +167,7 @@
     <Compile Include="Areas\Admin\Controllers\MedicalServicesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestimonialsController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
+    <Compile Include="Areas\Patient\Controllers\MyAppointmentsController.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
     <Compile Include="Consts\Roles.cs" />
     <Compile Include="Controllers\AboutController.cs" />
@@ -318,6 +319,19 @@
     <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\CreateContact.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\UpdateContact.cshtml" />
+    <Content Include="Areas\Doctor\Views\Shared\_DoctorLayout.cshtml" />
+    <Content Include="Areas\Doctor\Views\DoctorLayoutPartial\_DoctorLayoutHead.cshtml" />
+    <Content Include="Areas\Doctor\Views\DoctorLayoutPartial\_DoctorLayoutSidebar.cshtml" />
+    <Content Include="Areas\Doctor\Views\DoctorLayoutPartial\_DoctorLayoutHeader.cshtml" />
+    <Content Include="Areas\Doctor\Views\DoctorLayoutPartial\_DoctorLayoutFooter.cshtml" />
+    <Content Include="Areas\Doctor\Views\DoctorLayoutPartial\_DoctorLayoutScript.cshtml" />
+    <Content Include="Areas\Patient\Views\Shared\_PatientLayout.cshtml" />
+    <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutHead.cshtml" />
+    <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutSidebar.cshtml" />
+    <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutHeader.cshtml" />
+    <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutFooter.cshtml" />
+    <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutScript.cshtml" />
+    <Content Include="Areas\Patient\Views\MyAppointments\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1440,10 +1454,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Doctor\Controllers\" />
     <Folder Include="Areas\Doctor\Data\" />
-    <Folder Include="Areas\Doctor\Views\Shared\" />
-    <Folder Include="Areas\Patient\Controllers\" />
     <Folder Include="Areas\Patient\Data\" />
-    <Folder Include="Areas\Patient\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -23,12 +23,12 @@ namespace Medinova.Controllers
         public PartialViewResult DefaultAppointment()
         {
             var departments = _context.Departments.ToList();
-            ViewBag.departments = (from department in departments
-                                   select new SelectListItem
-                                   {
-                                       Text = department.Name,
-                                       Value = department.DepartmentId.ToString()
-                                   }).ToList();
+
+            ViewBag.departments = departments.Select(department => new SelectListItem
+            {
+                Text = department.Name,
+                Value = department.DepartmentId.ToString()
+            }).ToList();
 
             var dateList = new List<SelectListItem>();
 
@@ -44,15 +44,25 @@ namespace Medinova.Controllers
             }
 
             ViewBag.dateList = dateList;
+
             return PartialView();
         }
+        
         [HttpPost]
         public ActionResult CreateAppointment(Appointment appointment)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            appointment.UserId = (int)Session["UserId"];
             appointment.IsActive = true;
+
             _context.Appointments.Add(appointment);
             _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Index");
         }
         public JsonResult GetDoctorsByDepartmentId(int departmentId)
         {
@@ -67,25 +77,17 @@ namespace Medinova.Controllers
         [HttpPost]
         public JsonResult GetAvailableHours(DateTime selectedDate, int doctorId)
         {
-            var bookedTimes = _context.Appointments.Where(x => x.DoctorId == doctorId && x.AppointmentDate == selectedDate).Select(x => x.AppointmentTime).ToList();
+            var bookedTimes = _context.Appointments.Where(x => x.DoctorId == doctorId && x.AppointmentDate == selectedDate && x.IsActive == true).Select(x => x.AppointmentTime).ToList();
 
             var dtoList = new List<AppointmentAvailabilityDto>();
 
             foreach (var hour in Times.AppointmentHours)
             {
-                var dto = new AppointmentAvailabilityDto();
-                dto.Time = hour;
-
-                if (bookedTimes.Contains(hour))
+                dtoList.Add(new AppointmentAvailabilityDto
                 {
-                    dto.IsBooked = true;
-                }
-                else
-                {
-                    dto.IsBooked = false;
-                }
-
-                dtoList.Add(dto);
+                    Time = hour,
+                    IsBooked = bookedTimes.Contains(hour)
+                });
             }
 
             return Json(dtoList, JsonRequestBehavior.AllowGet);

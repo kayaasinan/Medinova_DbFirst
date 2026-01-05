@@ -22,6 +22,7 @@ namespace Medinova.Models
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> AppointmentDate { get; set; }
         public string AppointmentTime { get; set; }
+        public Nullable<int> UserId { get; set; }
     
         public virtual Doctor Doctor { get; set; }
     }

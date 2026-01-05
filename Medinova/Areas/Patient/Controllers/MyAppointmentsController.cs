@@ -1,0 +1,44 @@
+﻿using Medinova.Consts;
+using Medinova.Filters;
+using Medinova.Models;
+using System.Linq;
+using System.Web.Mvc;
+
+namespace Medinova.Areas.Patient.Controllers
+{
+    [AuthorizeRole(Roles.Patient)]
+    public class MyAppointmentsController : Controller
+    {
+        private readonly MedinovaContext _context;
+
+        public MyAppointmentsController(MedinovaContext context)
+        {
+            _context = context;
+        }
+
+        public ActionResult Index()
+        {
+            int userId = (int)Session["UserId"];
+
+            var appointments = _context.Appointments.Where(x => x.UserId == userId).OrderByDescending(x => x.AppointmentDate).ThenByDescending(x => x.AppointmentTime).ToList();
+
+            return View(appointments);
+        }
+
+        public ActionResult MakePassive(int id)
+        {
+            int userId = (int)Session["UserId"];
+
+            var appointment = _context.Appointments
+                .FirstOrDefault(x => x.AppointmentId == id && x.UserId == userId);
+
+            if (appointment == null)
+                return RedirectToAction("Index");
+
+            appointment.IsActive = false;
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+    }
+}

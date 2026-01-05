@@ -34,6 +34,7 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="AppointmentDate" Type="date" />
           <Property Name="AppointmentTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="Banners">
           <Key>
@@ -71,6 +72,7 @@
           <Property Name="ImageUrl" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="MedicalPackages">
           <Key>
@@ -255,6 +257,7 @@
           <Property Name="AppointmentDate" Type="DateTime" Precision="0" />
           <Property Name="AppointmentTime" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Doctor" Relationship="MedinovaDbModel.FK_Appointments_Doctors" FromRole="Appointment" ToRole="Doctor" />
+          <Property Name="UserId" Type="Int32" />
         </EntityType>
         <EntityType Name="Banner">
           <Key>
@@ -284,6 +287,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <NavigationProperty Name="Appointments" Relationship="MedinovaDbModel.FK_Appointments_Doctors" FromRole="Doctor" ToRole="Appointment" />
           <NavigationProperty Name="Department" Relationship="MedinovaDbModel.FK_Doctors_Departments" FromRole="Doctor" ToRole="Department" />
+          <Property Name="UserId" Type="Int32" />
         </EntityType>
         <EntityContainer Name="MedinovaContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AboutItems" EntityType="Self.AboutItem" />
@@ -477,6 +481,7 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="MedinovaDbModel.Appointment">
               <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
@@ -509,6 +514,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="MedinovaDbModel.Doctor">
               <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
