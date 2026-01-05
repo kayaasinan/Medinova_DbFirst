@@ -16,12 +16,12 @@
             <div class="col-lg-6">
                 <div class="bg-white text-center rounded p-5">
                     <h1 class="mb-4">Randevu Oluştur</h1>
-                    <form method="post" action="/Default/CreateAppointment/">
+                    <form method="post" action="/Default/CreateAppointment/" onsubmit="return checkLoginBeforeSubmit();">
                         <div class="row g-3">
 
                             <div class="col-12 col-sm-6">
                                 <label>Bölüm Seçiniz</label>
-                                @Html.DropDownList("DepartmentId",(List<SelectListItem>)ViewBag.departments,"---Bölüm Seçiniz---", new { @class = "form-control bg-light border-0", style = "height:55px" })
+                                @Html.DropDownList("DepartmentId", (List<SelectListItem>)ViewBag.departments, "---Bölüm Seçiniz---", new { @class = "form-control bg-light border-0", style = "height:55px" })
                             </div>
 
                             <div class="col-12 col-sm-6">
@@ -32,11 +32,11 @@
                             </div>
 
                             <div class="col-12 col-sm-6">
-                                <input type="text" name="FullName" class="form-control bg-light border-0" style="height:55px;" placeholder="Adınız Soyadınız" />
+                                <input type="text" name="FullName" class="form-control bg-light border-0" style="height:55px" placeholder="Adınız Soyadınız" value="@(Session["FullName"] ?? "")"/>
                             </div>
 
                             <div class="col-12 col-sm-6">
-                                <input type="email" name="Email" class="form-control bg-light border-0" style="height:55px;" placeholder="Email Adresiniz" />
+                                <input type="email" name="Email" class="form-control bg-light border-0" style="height:55px" placeholder="Email Adresiniz" value="@(Session["Email"] ?? "")"  />
                             </div>
 
                             <div class="col-12 col-sm-6">
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="col-12 col-sm-6">
-                                @Html.DropDownList("AppointmentDate",(List<SelectListItem>)ViewBag.dateList,"---Tarih Seçiniz---", new { @class = "form-control bg-light border-0", style = "height:55px" }
+                                @Html.DropDownList("AppointmentDate", (List<SelectListItem>)ViewBag.dateList, "---Tarih Seçiniz---", new { @class = "form-control bg-light border-0", style = "height:55px" }
                                 )
                             </div>
 
@@ -69,10 +69,14 @@
     </div>
 </div>
 
+<script>
+    const isAuthenticated = @(User.Identity.IsAuthenticated.ToString().ToLower());
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(document).ready(function () {
@@ -167,4 +171,27 @@
         });
 
     });
+</script>
+<script>
+    function checkLoginBeforeSubmit() {
+
+        if (!isAuthenticated) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Giriş Gerekli',
+                text: 'Randevu oluşturabilmek için önce giriş yapmalısınız.',
+                showCancelButton: true,
+                confirmButtonText: 'Giriş Yap',
+                cancelButtonText: 'Tamam'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Account/Login';
+                }
+            });
+
+            return false;
+        }
+
+        return true; 
+    }
 </script>
