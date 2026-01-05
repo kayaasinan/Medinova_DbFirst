@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Medinova.Models;
+using Medinova.Repositories.GenericRepositories;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -18,6 +19,7 @@ namespace Medinova
             builder.RegisterType<MedinovaContext>()
                    .AsSelf()
                    .InstancePerRequest();
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerRequest();
             var container = builder.Build();
             DependencyResolver.SetResolver(
                 new AutofacDependencyResolver(container)

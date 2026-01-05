@@ -1,58 +1,59 @@
 ﻿using Medinova.Models;
-using System.Linq;
+using Medinova.Repositories.GenericRepositories;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
     public class MedicalServicesController : Controller
     {
-        private readonly MedinovaContext _context;
+        private readonly IGenericRepository<MedicalService> _repo;
 
-        public MedicalServicesController(MedinovaContext context)
+        public MedicalServicesController(IGenericRepository<MedicalService> repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         public ActionResult Index()
         {
-            var services = _context.MedicalServices.ToList();
+            var services = _repo.GetAll();
             return View(services);
         }
+
         public ActionResult CreateMedicalService()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult CreateMedicalService(MedicalService model)
         {
-            _context.MedicalServices.Add(model);
-            _context.SaveChanges();
+            _repo.Add(model);
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult UpdateMedicalService(int id)
         {
-            var service = _context.MedicalServices.Find(id);
+            var service = _repo.GetById(id);
             return View(service);
         }
 
         [HttpPost]
         public ActionResult UpdateMedicalService(MedicalService model)
         {
-            var service = _context.MedicalServices.Find(model.MedicalServiceId);
+            var service = _repo.GetById(model.MedicalServiceId);
 
             service.Title = model.Title;
             service.Description = model.Description;
             service.Icon = model.Icon;
 
-            _context.SaveChanges();
+            _repo.Update(service);
+
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult DeleteMedicalService(int id)
         {
-            var service = _context.MedicalServices.Find(id);
-            _context.MedicalServices.Remove(service);
-            _context.SaveChanges();
-
+            _repo.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

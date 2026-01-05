@@ -1,4 +1,5 @@
 ﻿using Medinova.Models;
+using Medinova.Repositories.GenericRepositories;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -6,14 +7,16 @@ namespace Medinova.Controllers
 {
     public class MedicalPackageController : Controller
     {
-        private readonly MedinovaContext _context;
-        public MedicalPackageController(MedinovaContext context)
+        private readonly IGenericRepository<MedicalPackage> _repo;
+
+        public MedicalPackageController(IGenericRepository<MedicalPackage> repo)
         {
-            _context = context;
+            _repo = repo;
         }
+
         public ActionResult Index()
         {
-            var packages = _context.MedicalPackages.Where(x => x.IsActive == true).ToList();
+            var packages = _repo.GetWhere(x => x.IsActive == true);
             return View(packages);
         }
     }

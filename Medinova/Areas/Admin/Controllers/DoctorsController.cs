@@ -1,4 +1,5 @@
 ﻿using Medinova.Models;
+using Medinova.Repositories.GenericRepositories;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -6,64 +7,70 @@ namespace Medinova.Areas.Admin.Controllers
 {
     public class DoctorsController : Controller
     {
-        private readonly MedinovaContext _context;
-        public DoctorsController(MedinovaContext context)
+        private readonly IGenericRepository<Models.Doctor> _doctorRepo;
+        private readonly IGenericRepository<Department> _departmentRepo;
+
+        public DoctorsController(IGenericRepository<Models.Doctor> doctorRepo, IGenericRepository<Department> departmentRepo)
         {
-            _context = context;
+            _doctorRepo = doctorRepo;
+            _departmentRepo = departmentRepo;
         }
-        private void GetDepatment()
+
+        private void GetDepartment()
         {
-            var departments = _context.Departments.ToList();
-            ViewBag.departments = (from department in departments
-                                   select new SelectListItem
-                                   {
-                                       Text = department.Name,
-                                       Value = department.DepartmentId.ToString()
-                                   }).ToList();
+            ViewBag.departments = _departmentRepo.GetAll()
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.DepartmentId.ToString()
+                }).ToList();
         }
+
         public ActionResult Index()
         {
-            var doctors = _context.Doctors.ToList();
+            var doctors = _doctorRepo.GetAll();
             return View(doctors);
         }
+
         public ActionResult CreateDoctor()
         {
-            GetDepatment();
+            GetDepartment();
             return View();
         }
+
         [HttpPost]
         public ActionResult CreateDoctor(Models.Doctor model)
         {
-            _context.Doctors.Add(model);
-            _context.SaveChanges();
+            _doctorRepo.Add(model);
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult UpdateDoctor(int id)
         {
-            GetDepatment();
-            var doctor = _context.Doctors.Find(id);
+            GetDepartment();
+            var doctor = _doctorRepo.GetById(id);
             return View(doctor);
         }
 
         [HttpPost]
         public ActionResult UpdateDoctor(Models.Doctor model)
         {
-            var doctor = _context.Doctors.Find(model.DoctorId);
+            var doctor = _doctorRepo.GetById(model.DoctorId);
+
 
             doctor.FullName = model.FullName;
             doctor.Description = model.Description;
             doctor.ImageUrl = model.ImageUrl;
-            doctor.DepartmentId= model.DepartmentId;
+            doctor.DepartmentId = model.DepartmentId;
 
-            _context.SaveChanges();
+            _doctorRepo.Update(doctor);
+
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult DeleteDoctor(int id)
         {
-            var doctor = _context.Doctors.Find(id);
-            _context.Doctors.Remove(doctor);
-            _context.SaveChanges();
-
+            _doctorRepo.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

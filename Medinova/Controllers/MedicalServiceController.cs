@@ -1,4 +1,5 @@
 ﻿using Medinova.Models;
+using Medinova.Repositories.GenericRepositories;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -6,14 +7,16 @@ namespace Medinova.Controllers
 {
     public class MedicalServiceController : Controller
     {
-        private readonly MedinovaContext _context;
-        public MedicalServiceController(MedinovaContext context)
+        private readonly IGenericRepository<MedicalService> _repo;
+
+        public MedicalServiceController(IGenericRepository<MedicalService> repo)
         {
-            _context = context;
+            _repo = repo;
         }
+
         public ActionResult Index()
         {
-            var services = _context.MedicalServices.ToList();
+            var services = _repo.GetAll();
             return View(services);
         }
     }

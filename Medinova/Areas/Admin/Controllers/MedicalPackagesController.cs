@@ -1,43 +1,46 @@
 ﻿using Medinova.Models;
-using System.Linq;
+using Medinova.Repositories.GenericRepositories;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
     public class MedicalPackagesController : Controller
     {
-        private readonly MedinovaContext _context;
+        private readonly IGenericRepository<MedicalPackage> _repo;
 
-        public MedicalPackagesController(MedinovaContext context)
+        public MedicalPackagesController(IGenericRepository<MedicalPackage> repo)
         {
-            _context = context;
+            _repo = repo;
         }
+
         public ActionResult Index()
         {
-            var packages = _context.MedicalPackages.ToList();
+            var packages = _repo.GetAll();
             return View(packages);
         }
+
         public ActionResult CreateMedicalPackage()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult CreateMedicalPackage(MedicalPackage model)
         {
-            _context.MedicalPackages.Add(model);
-            _context.SaveChanges();
+            _repo.Add(model);
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult UpdateMedicalPackage(int id)
         {
-            var package = _context.MedicalPackages.Find(id);
+            var package = _repo.GetById(id);
             return View(package);
         }
 
         [HttpPost]
         public ActionResult UpdateMedicalPackage(MedicalPackage model)
         {
-            var package = _context.MedicalPackages.Find(model.MedicalPackagesId);
+            var package = _repo.GetById(model.MedicalPackagesId);
 
             package.PackageName = model.PackageName;
             package.Feature1 = model.Feature1;
@@ -48,15 +51,14 @@ namespace Medinova.Areas.Admin.Controllers
             package.ImageUrl = model.ImageUrl;
             package.IsActive = true;
 
-            _context.SaveChanges();
+            _repo.Update(package);
+
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult DeleteMedicalPackage(int id)
         {
-            var package = _context.MedicalPackages.Find(id);
-            _context.MedicalPackages.Remove(package);
-            _context.SaveChanges();
-
+            _repo.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

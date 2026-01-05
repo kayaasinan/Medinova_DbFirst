@@ -1,19 +1,21 @@
 ﻿using Medinova.Models;
-using System.Linq;
+using Medinova.Repositories.GenericRepositories;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
     public class AboutItemsController : Controller
     {
-        private readonly MedinovaContext _context;
-        public AboutItemsController(MedinovaContext context)
+        private readonly IGenericRepository<AboutItem> _repo;
+
+        public AboutItemsController(IGenericRepository<AboutItem> repo)
         {
-            _context = context;
+            _repo = repo;
         }
+
         public ActionResult Index()
         {
-            var aboutItems = _context.AboutItems.ToList();
+            var aboutItems = _repo.GetAll();
             return View(aboutItems);
         }
 
@@ -25,35 +27,32 @@ namespace Medinova.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult CreateAboutItem(AboutItem model)
         {
-            _context.AboutItems.Add(model);
-            _context.SaveChanges();
-
+            _repo.Add(model);
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult UpdateAboutItem(int id)
         {
-            var aboutItem = _context.AboutItems.Find(id);
+            var aboutItem = _repo.GetById(id);
             return View(aboutItem);
         }
 
         [HttpPost]
         public ActionResult UpdateAboutItem(AboutItem model)
         {
-            var aboutItem = _context.AboutItems.Find(model.AboutItemId);
+            var entity = _repo.GetById(model.AboutItemId);
 
-            aboutItem.Title = model.Title;
-            aboutItem.Icon = model.Icon;
-       
-            _context.SaveChanges();
+            entity.Title = model.Title;
+            entity.Icon = model.Icon;
+
+            _repo.Update(entity);
+
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult DeleteAboutItem(int id)
         {
-            var value = _context.AboutItems.Find(id);
-      
-            _context.AboutItems.Remove(value);
-            _context.SaveChanges();
-
+            _repo.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

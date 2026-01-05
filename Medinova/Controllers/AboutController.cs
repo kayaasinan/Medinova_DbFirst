@@ -1,4 +1,5 @@
 ﻿using Medinova.Models;
+using Medinova.Repositories.GenericRepositories;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -6,19 +7,23 @@ namespace Medinova.Controllers
 {
     public class AboutController : Controller
     {
-        private readonly MedinovaContext _context;
-        public AboutController(MedinovaContext context)
+        private readonly IGenericRepository<About> _aboutRepo;
+        private readonly IGenericRepository<AboutItem> _aboutItemRepo;
+
+        public AboutController(IGenericRepository<About> aboutRepo, IGenericRepository<AboutItem> aboutItemRepo)
         {
-            _context = context;
+            _aboutRepo = aboutRepo;
+            _aboutItemRepo = aboutItemRepo;
         }
+
         public ActionResult Index()
         {
-            var abouts = _context.Abouts.ToList();
+            var abouts = _aboutRepo.GetAll();
             return View(abouts);
         }
         public PartialViewResult AboutItemPage()
         {
-            var aboutItems = _context.AboutItems.ToList();
+            var aboutItems = _aboutItemRepo.GetAll();
             return PartialView(aboutItems);
         }
     }
