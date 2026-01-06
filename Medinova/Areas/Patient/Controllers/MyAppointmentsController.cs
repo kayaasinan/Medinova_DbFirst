@@ -22,6 +22,11 @@ namespace Medinova.Areas.Patient.Controllers
 
             var appointments = _context.Appointments.Where(x => x.UserId == userId).OrderByDescending(x => x.AppointmentDate).ThenByDescending(x => x.AppointmentTime).ToList();
 
+            if (appointments.Any(x => x.IsActive == false))
+            {
+                TempData["DoctorCancelled"] = true;
+            }
+
             return View(appointments);
         }
 

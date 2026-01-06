@@ -5,6 +5,7 @@ using System.Web.Mvc;
 
 namespace Medinova.Controllers
 {
+    [AllowAnonymous]
     public class AboutController : Controller
     {
         private readonly IGenericRepository<About> _aboutRepo;

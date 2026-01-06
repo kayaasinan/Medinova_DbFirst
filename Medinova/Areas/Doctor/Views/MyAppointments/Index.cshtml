@@ -1,0 +1,188 @@
+﻿@model List<Medinova.Models.Appointment>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Randevularım</h4>
+                <p class="mb-0 section-subtitle">
+                    Randevu düzenlemelerini bu sayfadan yapabilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Saat</th>
+            <th>Hasta</th>
+            <th>Telefon</th>
+            <th>Email</th>
+            <th>Durum</th>
+            <th>İşlem</th>
+            <th class="text-end"> Randevu Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(item.AppointmentDate.HasValue? item.AppointmentDate.Value.ToString("dd.MM.yyyy"): "-")</td>
+                <td>@item.AppointmentTime</td>
+                <td>@item.FullName</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Email</td>
+                <td>
+                    @if (item.IsActive == true)
+                    {
+                        <span class="badge bg-success">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Pasif</span>
+                    }
+                </td>
+                <td class="text-end">
+                    <a href="/Doctor/MyAppointments/ToggleStatus/@item.AppointmentId" class="btn btn-sm @(item.IsActive == true ? "btn-outline-danger" : "btn-outline-success")">
+                        @(item.IsActive == true ? "Pasif Yap" : "Aktif Yap")
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#detailModal" onclick="loadAppointmentDetail(@item.AppointmentId)">
+                        Detay
+                    </button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modern-modal">
+
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title d-flex align-items-center gap-2">
+                    <i class="mdi mdi-calendar-check text-primary fs-4"></i>
+                    Randevu Detayı
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body pt-3">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Hasta</span>
+                            <strong id="mFullName"></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Email</span>
+                            <strong id="mEmail"></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Telefon</span>
+                            <strong id="mPhone"></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Durum</span>
+                            <strong>
+                                <span id="mStatus" class="badge"></span>
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Tarih</span>
+                            <strong id="mDate"></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <span>Saat</span>
+                            <strong id="mTime"></strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadAppointmentDetail(id) {
+        $.getJSON('/Doctor/MyAppointments/GetAppointmentDetail', { id: id }, function (data) {
+            if (!data) return;
+
+            $('#mFullName').text(data.FullName);
+            $('#mEmail').text(data.Email);
+            $('#mPhone').text(data.PhoneNumber);
+            $('#mDate').text(data.Date);
+            $('#mTime').text(data.AppointmentTime);
+            $('#mStatus')
+                .text(data.Status)
+                .removeClass('badge-success badge-secondary')
+                .addClass(data.Status === "Aktif" ? 'badge-success' : 'badge-secondary');
+        });
+    }
+</script>
+
+<style>
+    .modern-modal {
+        border-radius: 16px;
+        padding: 10px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+        .modern-modal .modal-title {
+            font-weight: 600;
+        }
+
+    .info-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+        .info-card span {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .info-card strong {
+            font-size: 15px;
+            font-weight: 600;
+            color: #343a40;
+        }
+</style>

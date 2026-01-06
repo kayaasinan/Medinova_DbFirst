@@ -44,59 +44,59 @@
                     {
                         foreach (var item in Model)
                         {
-                <tr>
-                    <td>
-                        @(item.AppointmentDate.HasValue? item.AppointmentDate.Value.ToString("dd.MM.yyyy"): "-")
-                    </td>
+                            <tr>
+                                <td>
+                                    @(item.AppointmentDate.HasValue? item.AppointmentDate.Value.ToString("dd.MM.yyyy"): "-")
+                                </td>
 
-                    <td>
-                        <span class="fw-semibold">
-                            @item.AppointmentTime
-                        </span>
-                    </td>
+                                <td>
+                                    <span class="fw-semibold">
+                                        @item.AppointmentTime
+                                    </span>
+                                </td>
 
-                    <td>
-                        @item.Doctor.FullName
-                    </td>
+                                <td>
+                                    @item.Doctor.FullName
+                                </td>
 
-                    <td>
-                        <div class="small text-muted">
-                            <div>@item.PhoneNumber</div>
-                            <div>@item.Email</div>
-                        </div>
-                    </td>
+                                <td>
+                                    <div class="small text-muted">
+                                        <div>@item.PhoneNumber</div>
+                                        <div>@item.Email</div>
+                                    </div>
+                                </td>
 
-                    <td>
-                        @if (item.IsActive == true)
-                        {
-                            <span class="badge bg-success">
-                                Aktif
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">
-                                Pasif
-                            </span>
-                        }
-                    </td>
+                                <td>
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="badge bg-success">
+                                            Aktif
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Pasif
+                                        </span>
+                                    }
+                                </td>
 
-                    <td class="text-end">
-                        @if (item.IsActive == true)
-                        {
-                            <a href="javascript:void(0)" onclick="confirmPassive(@item.AppointmentId)" class="btn btn-outline-danger btn-sm">
-                                Pasif Yap
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="javascript:void(0)" onclick="cannotActivate()" class="btn btn-outline-primary btn-sm">
-                                Aktif Et
-                            </a>
-                        }
-                    </td>
+                                <td class="text-end">
+                                    @if (item.IsActive == true)
+                                    {
+                                        <a href="javascript:void(0)" onclick="confirmPassive(@item.AppointmentId)" class="btn btn-outline-danger btn-sm">
+                                            Pasif Yap
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:void(0)" onclick="cannotActivate()" class="btn btn-outline-primary btn-sm">
+                                            Aktif Et
+                                        </a>
+                                    }
+                                </td>
 
-                </tr>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -104,7 +104,17 @@
         </div>
     </div>
 </div>
-
+@if (TempData["DoctorCancelled"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Bilgilendirme',
+            text: 'Doktor tarafından iptal edilen randevularınız bulunmaktadır. Lütfen detayları kontrol ediniz.',
+            confirmButtonText: 'Tamam'
+        });
+    </script>
+}
 <script>
     function confirmPassive(id) {
         Swal.fire({

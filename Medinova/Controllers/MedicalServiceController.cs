@@ -5,6 +5,7 @@ using System.Web.Mvc;
 
 namespace Medinova.Controllers
 {
+    [AllowAnonymous]
     public class MedicalServiceController : Controller
     {
         private readonly IGenericRepository<MedicalService> _repo;

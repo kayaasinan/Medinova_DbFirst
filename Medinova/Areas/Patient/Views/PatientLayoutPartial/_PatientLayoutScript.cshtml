@@ -27,20 +27,131 @@
 
 
 <script>
-    function confirmDelete(urlWithId) {
-        Swal.fire({
-            title: "Silmek istediğinizden emin misiniz?",
-            text: "Bu işlem geri alınamaz!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Evet, Sil!",
-            cancelButtonText: "İptal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = urlWithId;
-            }
+    const isAuthenticated = @(User.Identity.IsAuthenticated.ToString().ToLower());
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+
+        const doctorDropdown = $("#DoctorId");
+        const dateDropdown = $("#AppointmentDate");
+        const timeDropdown = $("#AppointmentTime");
+
+
+        doctorDropdown.prop("disabled", true);
+        dateDropdown.prop("disabled", true);
+        timeDropdown.prop("disabled", true);
+
+
+        $("#DepartmentId").change(function () {
+
+            const departmentId = $(this).val();
+
+            doctorDropdown.empty().append('<option value="">Doktor Seçiniz</option>');
+            doctorDropdown.prop("disabled", true);
+
+            dateDropdown.val("").prop("disabled", true);
+            timeDropdown.empty().append('<option>Önce Doktor ve Tarih Seçiniz</option>').prop("disabled", true);
+
+            if (!departmentId) return;
+
+            $.getJSON("/Default/GetDoctorsByDepartmentId", { departmentId }, function (data) {
+
+                $.each(data, function (i, doctor) {
+                    doctorDropdown.append(
+                        $('<option>', {
+                            value: doctor.Value,
+                            text: doctor.Text
+                        })
+                    );
+                });
+
+                doctorDropdown.prop("disabled", false);
+            });
         });
+
+
+        doctorDropdown.change(function () {
+
+            dateDropdown.val("").prop("disabled", false);
+            timeDropdown.empty().append('<option>Önce Tarih Seçiniz</option>').prop("disabled", true);
+
+        });
+
+
+        dateDropdown.change(function () {
+
+            const selectedDate = $(this).val();
+            const doctorId = doctorDropdown.val();
+
+            timeDropdown.empty();
+
+            if (!selectedDate || !doctorId) {
+                timeDropdown.append('<option>Eksik seçim</option>').prop("disabled", true);
+                return;
+            }
+
+            $.ajax({
+                url: "/Default/GetAvailableHours",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    selectedDate: selectedDate,
+                    doctorId: doctorId
+                },
+                success: function (data) {
+
+                    if (data.length === 0) {
+                        timeDropdown.append('<option>Uygun saat yok</option>');
+                        return;
+                    }
+
+                    $.each(data, function (i, item) {
+
+                        const option = $('<option>', {
+                            value: item.Time,
+                            text: item.IsBooked ? item.Time + " (Dolu)" : item.Time,
+                            disabled: item.IsBooked
+                        });
+
+                        timeDropdown.append(option);
+                    });
+
+                    timeDropdown.prop("disabled", false);
+                }
+            });
+        });
+
+    });
+</script>
+<script>
+    function checkLoginBeforeSubmit() {
+
+        if (!isAuthenticated) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Giriş Gerekli',
+                text: 'Randevu oluşturabilmek için önce giriş yapmalısınız.',
+                showCancelButton: true,
+                confirmButtonText: 'Giriş Yap',
+                cancelButtonText: 'Tamam'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Account/Login';
+                }
+            });
+
+            return false;
+        }
+
+        return true;
     }
 </script>
+
 
 

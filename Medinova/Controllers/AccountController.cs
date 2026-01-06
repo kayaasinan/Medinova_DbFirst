@@ -54,7 +54,6 @@ namespace Medinova.Controllers
             Session["FullName"] = user.FirstName + " " + user.LastName;
             Session["Email"] = user.Email;
             Session["Role"] = role;
-            Session["Role"] = role;
 
             return RedirectToAction("Index", "Default");
         }

@@ -166,6 +166,7 @@
     <Compile Include="Areas\Admin\Controllers\MedicalPackagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MedicalServicesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestimonialsController.cs" />
+    <Compile Include="Areas\Doctor\Controllers\MyAppointmentsController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
     <Compile Include="Areas\Patient\Controllers\MyAppointmentsController.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
@@ -332,6 +333,7 @@
     <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutFooter.cshtml" />
     <Content Include="Areas\Patient\Views\PatientLayoutPartial\_PatientLayoutScript.cshtml" />
     <Content Include="Areas\Patient\Views\MyAppointments\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\MyAppointments\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1452,7 +1454,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Doctor\Controllers\" />
     <Folder Include="Areas\Doctor\Data\" />
     <Folder Include="Areas\Patient\Data\" />
   </ItemGroup>
