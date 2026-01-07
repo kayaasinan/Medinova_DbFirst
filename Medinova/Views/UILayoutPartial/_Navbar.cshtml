@@ -26,13 +26,13 @@
                     {
                         if (Session["Role"]?.ToString() == "Admin")
                         {
-                            <a href="/Admin/Abouts/Index" class="nav-item nav-link fw-semibold text-primary">
+                            <a href="/Admin/AdminDashboard/Index" class="nav-item nav-link fw-semibold text-primary">
                                 Admin Panel
                             </a>
                         }
                         else if (Session["Role"]?.ToString() == "Doctor")
                         {
-                            <a href="/Doctor/Dashboard/Index" class="nav-item nav-link fw-semibold text-primary">
+                            <a href="/Doctor/MyAppointments/Index" class="nav-item nav-link fw-semibold text-primary">
                                 Doktor Panel
                             </a>
                         }

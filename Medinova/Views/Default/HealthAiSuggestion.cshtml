@@ -1,0 +1,206 @@
+﻿<div class="container my-5">
+    <div class="ai-health-box mx-auto">
+        <div class="ai-health-header">
+            <div class="ai-icon">🤖</div>
+            <div>
+                <h4 class="mb-1 fw-bold">Yapay Zeka Sağlık Asistanı</h4>
+                <p class="mb-0 text-muted">
+                    Şikayetinizi yazın, Medinova sizi doğru bölüme yönlendirsin.
+                </p>
+            </div>
+        </div>
+
+        <div class="ai-health-body">
+            <textarea id="aiUserText"
+                      class="form-control ai-textarea"
+                      rows="4"
+                      placeholder="Örn: Son birkaç gündür baş ağrım var, mide bulantısı yaşıyorum..."></textarea>
+
+            <button class="btn btn-gradient w-100 mt-3"
+                    onclick="openAiModal()">
+                🤖 Yapay Zekaya Sor
+            </button>
+        </div>
+
+        <div class="ai-health-footer">
+            <small>
+                ⚠️ Bu yönlendirme bilgilendirme amaçlıdır, kesin tanı yerine geçmez.
+            </small>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="aiModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">
+                    🤖 Yapay Zeka Sağlık Yönlendirmesi
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div id="aiLoading" class="text-center py-5">
+                    <div class="spinner-border text-info mb-3"></div>
+                    <p class="fw-semibold mb-0">Yapay zeka analiz ediyor...</p>
+                </div>
+
+                <div id="aiResult" style="display:none;">
+                    <div class="alert alert-success">
+                        <h6 class="fw-bold mb-2">🏥 Medinova Hastanesi</h6>
+
+                        <p class="mb-1">
+                            <strong>Önerilen Bölüm:</strong>
+                            <span id="aiDepartment"></span>
+                        </p>
+
+                        <p id="aiReason"
+                           class="text-muted mb-2"
+                           style="display:none;"></p>
+
+                        <hr />
+
+                        <p class="mb-0">
+                            <strong>Öneri:</strong>
+                            <span id="aiSuggestion"></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Kapat
+                </button>
+
+                <button id="btnAppointment"
+                        class="btn btn-success"
+                        style="display:none;">
+                    📅 Randevu Al
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="aiModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title">
+                    🤖 Yapay Zeka Sağlık Yönlendirmesi
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4">
+
+                <div id="aiLoading" class="text-center py-4">
+                    <div class="spinner-border text-primary mb-3"></div>
+                    <p class="fw-semibold mb-0">
+                        Şikayetiniz analiz ediliyor...
+                    </p>
+                </div>
+
+                <div id="aiResult" style="display:none;">
+                    <div class="alert alert-success rounded-3">
+                        <h6 class="fw-bold mb-2">
+                            🏥 Medinova Hastanesi
+                        </h6>
+
+                        <p class="mb-1">
+                            <strong>Önerilen Bölüm:</strong>
+                            <span id="aiDepartment"></span>
+                        </p>
+
+                        <p class="text-muted mb-2" id="aiReason"></p>
+
+                        <div class="border-top pt-2">
+                            <strong>Öneri:</strong>
+                            <span id="aiSuggestion"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <a href="/Appointment/Index"
+                   class="btn btn-success px-4">
+                    📅 Randevu Al
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function openAiModal() {
+
+        const text = document.getElementById("aiUserText").value;
+        if (!text) return;
+
+      
+        $("#aiModal").modal("show");
+
+   
+        $("#aiLoading").show();
+        $("#aiResult").hide();
+        $("#btnAppointment").hide();
+        $("#aiReason").hide();
+
+        fetch("/Default/GetHealthAiSuggestion", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "userText=" + encodeURIComponent(text)
+        })
+            .then(res => res.json())
+            .then(res => {
+
+                $("#aiLoading").hide();
+
+                if (!res.success || !res.data) {
+                    alert("Yapay zeka sonucu alınamadı.");
+                    return;
+                }
+
+                const data = res.data;
+
+            
+                $("#aiDepartment").text(data.Department);
+                $("#aiSuggestion").text(data.Suggestion);
+
+                if (data.Reason) {
+                    $("#aiReason").text(data.Reason).show();
+                }
+
+                $("#aiResult").fadeIn();
+
+            
+                $("#btnAppointment")
+                    .off("click")
+                    .on("click", function () {
+                        window.location.href = "/Default/CreateAppointment";
+                    })
+                    .fadeIn();   
+            })
+            .catch(err => {
+                $("#aiLoading").hide();
+                alert("Bir hata oluştu.");
+                console.error(err);
+            });
+    }
+</script>

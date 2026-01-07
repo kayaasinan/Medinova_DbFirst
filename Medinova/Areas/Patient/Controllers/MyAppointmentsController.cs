@@ -1,6 +1,7 @@
 ﻿using Medinova.Consts;
 using Medinova.Filters;
 using Medinova.Models;
+using Medinova.Services;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -43,6 +44,15 @@ namespace Medinova.Areas.Patient.Controllers
             appointment.IsActive = false;
             _context.SaveChanges();
 
+            LogService.Info
+                (
+                    "Hasta randevusunu pasif hale getirdi",
+                    "MakePassive",
+                    "MyAppointments",
+                    userId,
+                    Session["UserName"]?.ToString(),
+                    "Patient"
+                );
             return RedirectToAction("Index");
         }
     }

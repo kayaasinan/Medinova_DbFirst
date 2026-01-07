@@ -1,6 +1,7 @@
 ﻿using Medinova.Consts;
 using Medinova.Filters;
 using Medinova.Models;
+using Medinova.Services;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -23,7 +24,7 @@ namespace Medinova.Areas.Doctor.Controllers
             if (doctor == null)
                 return RedirectToAction("Index", "Default");
 
-            var appointments = _context.Appointments.Where(x => x.DoctorId == doctor.DoctorId).OrderBy(x => x.AppointmentDate).ThenBy(x => x.AppointmentTime).ToList();
+            var appointments = _context.Appointments.Where(x => x.DoctorId == doctor.DoctorId).OrderByDescending(x => x.AppointmentDate).ThenBy(x => x.AppointmentTime).ToList();
 
             return View(appointments);
         }
@@ -35,13 +36,26 @@ namespace Medinova.Areas.Doctor.Controllers
             if (doctor == null)
                 return RedirectToAction("Index");
 
-            var appointment = _context.Appointments.FirstOrDefault(x => x.AppointmentId == id && x.DoctorId == doctor.DoctorId);
+            var appointment = _context.Appointments
+                .FirstOrDefault(x => x.AppointmentId == id && x.DoctorId == doctor.DoctorId);
 
             if (appointment == null)
                 return RedirectToAction("Index");
 
-            appointment.IsActive = !(appointment.IsActive ?? true);
+            bool oldStatus = appointment.IsActive ?? true;
+            appointment.IsActive = !oldStatus;
             _context.SaveChanges();
+
+            LogService.Info(
+                    appointment.IsActive == true
+                    ? "Doktor randevuyu tekrar aktif hale getirdi"
+                    : "Doktor randevuyu pasif hale getirdi",
+                    "ToggleStatus",
+                    "DoctorAppointments",
+                    userId,
+                    Session["UserName"]?.ToString(),
+                    "Doctor"
+            );
 
             return RedirectToAction("Index");
         }

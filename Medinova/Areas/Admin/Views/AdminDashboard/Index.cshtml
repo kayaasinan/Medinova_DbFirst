@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="dashboard-section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 section-title">Dashboard/İstatistik</h4>
+                <p class="mb-0 section-subtitle">
+                    İstatistiksel randevu bilgilerini bu sayfada görebilirsiniz...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
+        <div class="row">
+
+            <div class="col-xl-12 col-md-6 stretch-card grid-margin pb-sm-3">
+                <div class="card bg-warning">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="color-card">
+                                <p class="mb-1 color-card-head">Toplam Randevu</p>
+                                <h2 class="text-white">@ViewBag.TotalAppointments</h2>
+                            </div>
+                            <i class="mdi mdi-calendar-check card-icon-indicator"></i>
+                        </div>
+                        <h6 class="text-white">Sistemdeki tüm randevular</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-md-6 stretch-card grid-margin pb-sm-3">
+                <div class="card bg-danger">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="color-card">
+                                <p class="mb-1 color-card-head">Aktif Randevu</p>
+                                <h2 class="text-white">@ViewBag.ActiveAppointments</h2>
+                            </div>
+                            <i class="mdi mdi-timer card-icon-indicator"></i>
+                        </div>
+                        <h6 class="text-white">Devam eden randevular</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-md-6 stretch-card grid-margin pb-sm-3">
+                <div class="card bg-primary">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="color-card">
+                                <p class="mb-1 color-card-head">Bugünkü Randevu</p>
+                                <h2 class="text-white">@ViewBag.TodayAppointments</h2>
+                            </div>
+                            <i class="mdi mdi-calendar-today card-icon-indicator"></i>
+                        </div>
+                        <h6 class="text-white">Bugün alınan randevular</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-md-6 stretch-card">
+                <div class="card bg-success">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="color-card">
+                                <p class="mb-1 color-card-head">Toplam Hasta</p>
+                                <h2 class="text-white">@ViewBag.TotalUsers</h2>
+                            </div>
+                            <i class="mdi mdi-account-group card-icon-indicator"></i>
+                        </div>
+                        <h6 class="text-white">Kayıtlı hasta sayısı</h6>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-xl-9 stretch-card grid-margin">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col-sm-7">
+                        <h5>Hastane Operasyonel Analizi</h5>
+                        <p class="text-muted">Gerçek zamanlı hastane verileri</p>
+                    </div>
+                </div>       
+                <div class="row mb-4">
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body py-3 px-4">
+                                <p class="m-0 survey-head">Bugünkü Randevu</p>
+                                <h3 class="m-0 survey-value">@ViewBag.TodayAppointments</h3>
+                                <p class="text-success m-0">Canlı veri</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body py-3 px-4">
+                                <p class="m-0 survey-head">Bu Ay Randevu</p>
+                                <h3 class="m-0 survey-value">@ViewBag.MonthlyAppointments</h3>
+                                <p class="text-danger m-0">Aylık toplam</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body py-3 px-4">
+                                <p class="m-0 survey-head">Toplam Doktor</p>
+                                <h3 class="m-0 survey-value">@ViewBag.MonthlyDoctors</h3>
+                                <p class="text-success m-0">Aktif doktorlar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <canvas id="appointmentChart" height="120"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartData));
+
+    const labels = chartData.map(x => x.Label);
+    const values = chartData.map(x => x.Value);
+
+    new Chart(document.getElementById('appointmentChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Aylık Randevu Sayısı',
+                data: values,
+                borderColor: '#4B49AC',
+                backgroundColor: 'rgba(75,73,172,0.15)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>

@@ -1,0 +1,64 @@
+﻿@model List<Medinova.ML.Models.DepartmentForecastDto>
+
+<div class="col-lg-6 col-md-12 d-flex flex-column">
+    <div class="alert alert-warning mb-2">
+        🤖 Önümüzdeki <strong>ay</strong> için ML.NET bölüm tahmini
+    </div>
+
+    <div class="card shadow-sm flex-fill">
+        <div class="card-body d-flex flex-column">
+            <h5 class="fw-bold mb-3">
+                🧠 ML Tahmini – Bölüm Dağılımı
+            </h5>
+
+            <div class="d-flex justify-content-center align-items-center"
+                 style="height:260px;">
+                <canvas id="departmentPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const mlData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+        console.log("ML DATA:", mlData);
+
+        if (!mlData || mlData.length === 0) {
+            console.warn("ML data boş geldi");
+            return;
+        }
+
+        const ctx = document.getElementById('departmentPieChart');
+        if (!ctx) {
+            console.error("Canvas bulunamadı");
+            return;
+        }
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: mlData.map(x => x.DepartmentName),
+                datasets: [{
+                    data: mlData.map(x => x.PredictedCount),
+                    backgroundColor: [
+                        '#6610f2',
+                        '#6f42c1',
+                        '#d63384',
+                        '#fd7e14',
+                        '#20c997'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    });
+</script>

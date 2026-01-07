@@ -2,6 +2,7 @@
 using Medinova.Filters;
 using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
+using Medinova.Services;
 using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
@@ -31,6 +32,15 @@ namespace Medinova.Areas.Admin.Controllers
         public ActionResult CreateMedicalPackage(MedicalPackage model)
         {
             _repo.Add(model);
+            LogService.Info
+                (
+                    "Admin yeni bir medikal paket ekledi",
+                    "Create",
+                    "MedicalPackages",
+                    (int?)Session["UserId"],
+                    Session["UserName"]?.ToString(),
+                    "Admin"
+                 );
             return RedirectToAction(nameof(Index));
         }
 
@@ -55,13 +65,30 @@ namespace Medinova.Areas.Admin.Controllers
             package.IsActive = true;
 
             _repo.Update(package);
-
+            LogService.Info
+                (
+                    "Admin medikal paketi güncelledi",
+                    "Update",
+                    "MedicalPackages",
+                    (int?)Session["UserId"],
+                    Session["UserName"]?.ToString(),
+                    "Admin"
+                );
             return RedirectToAction(nameof(Index));
         }
 
         public ActionResult DeleteMedicalPackage(int id)
         {
             _repo.Delete(id);
+            LogService.Info
+                (
+                    "Admin medikal paketi sildi",
+                    "Delete",
+                    "MedicalPackages",
+                    (int?)Session["UserId"],
+                    Session["UserName"]?.ToString(),
+                    "Admin"
+                 );
             return RedirectToAction(nameof(Index));
         }
     }

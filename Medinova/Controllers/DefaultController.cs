@@ -1,9 +1,12 @@
 ﻿using Medinova.Consts;
 using Medinova.DTOs;
 using Medinova.Models;
+using Medinova.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Medinova.Controllers
@@ -47,12 +50,33 @@ namespace Medinova.Controllers
 
             return PartialView();
         }
-        
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult CreateAppointment()
+        {
+           
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+     
+            return View();
+        }
         [HttpPost]
         public ActionResult CreateAppointment(Appointment appointment)
         {
             if (!User.Identity.IsAuthenticated)
             {
+                LogService.Info
+                    (
+                        "Giriş yapmadan randevu oluşturma denemesi yapıldı",
+                        "CreateAppointment",
+                        "Default",
+                        null,
+                        null,
+                        null
+                    );
                 return RedirectToAction("Login", "Account");
             }
 
@@ -61,7 +85,15 @@ namespace Medinova.Controllers
 
             _context.Appointments.Add(appointment);
             _context.SaveChanges();
-
+            LogService.Info
+                (
+                    "Hasta yeni bir randevu oluşturdu",
+                    "CreateAppointment",
+                    "Default",
+                    appointment.UserId,
+                    Session["UserName"]?.ToString(),
+                    "Patient"
+                 );
             return RedirectToAction("Index");
         }
         public JsonResult GetDoctorsByDepartmentId(int departmentId)
@@ -127,5 +159,22 @@ namespace Medinova.Controllers
             var banners = _context.Banners.ToList();
             return PartialView(banners);
         }
+        public PartialViewResult HealthAiSuggestion()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetHealthAiSuggestion(string userText)
+        {
+            var service = new AiHealthSuggestionService();
+            var result = await service.GetDepartmentSuggestionAsync(userText);
+
+            return Json(
+                new { success = true, data = result },
+                JsonRequestBehavior.AllowGet
+            );
+        }
+
     }
 }

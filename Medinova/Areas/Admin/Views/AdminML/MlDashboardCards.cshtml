@@ -1,0 +1,35 @@
+﻿@model List<Medinova.ML.Models.DashboardCardDto>
+<div class="alert alert-info mb-2">
+    📊 Önümüzdeki <strong>7 gün</strong> için hastanenin tahmini istatistikleri
+</div>
+<div class="row mb-4">
+
+    @foreach (var card in Model)
+    {
+        <div class="col-xl-3 col-lg-6 col-md-6 stretch-card">
+            <div class="card @card.BgClass h-100">
+                <div class="card-body px-4 py-4 d-flex flex-column justify-content-between">
+
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <p class="mb-0 text-white opacity-75 fw-semibold"
+                           style="font-size:13px; letter-spacing:0.5px;">
+                            @card.Title
+                        </p>
+
+                        <i class="mdi @card.IconClass text-white fs-4 opacity-75"></i>
+                    </div>
+
+
+                    <div>
+                        <h3 class="text-white fw-bold mb-0"
+                            style="line-height:1.2;">
+                            @card.MainValue
+                        </h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
