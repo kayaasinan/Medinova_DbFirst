@@ -19,5 +19,9 @@ namespace Medinova.Controllers
             var contact = _repo.GetFirstOrDefault();
             return View(contact);
         }
+        public PartialViewResult _AiHealthChat()
+        {
+            return PartialView();
+        }
     }
 }

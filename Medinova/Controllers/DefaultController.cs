@@ -169,12 +169,17 @@ namespace Medinova.Controllers
         {
             var service = new AiHealthSuggestionService();
             var result = await service.GetDepartmentSuggestionAsync(userText);
+            LogService.Info
+                (
+                    "AI sağlık önerisi alındı",
+                    "GetHealthAiSuggestion",
+                    "HealthAi"
+                );
 
             return Json(
                 new { success = true, data = result },
                 JsonRequestBehavior.AllowGet
             );
         }
-
     }
 }

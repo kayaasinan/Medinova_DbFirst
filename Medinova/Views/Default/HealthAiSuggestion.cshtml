@@ -1,35 +1,83 @@
 ﻿<div class="container my-5">
-    <div class="ai-health-box mx-auto">
-        <div class="ai-health-header">
-            <div class="ai-icon">🤖</div>
-            <div>
-                <h4 class="mb-1 fw-bold">Yapay Zeka Sağlık Asistanı</h4>
-                <p class="mb-0 text-muted">
-                    Şikayetinizi yazın, Medinova sizi doğru bölüme yönlendirsin.
+
+  
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+         
+            <div class="mb-4">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="fs-3 me-2">🤖</span>
+                    <h3 class="fw-bold mb-0">Medinova AI</h3>
+                </div>
+                <p class="text-muted mb-0">
+                    Şikayetini analiz eder, seni en doğru kliniğe yönlendirir.
                 </p>
             </div>
+
+         
+            <div class="row mb-4">
+                <div class="col-md-4 mb-2">
+                    <div class="border rounded p-3 h-100">
+                        <div class="fw-semibold mb-1">Semptom Analizi</div>
+                        <small class="text-muted">
+                            Yazdığın belirtiler yapay zeka tarafından değerlendirilir.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="border rounded p-3 h-100">
+                        <div class="fw-semibold mb-1">Bölüm Önerisi</div>
+                        <small class="text-muted">
+                            En uygun poliklinik veya branş önerilir.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="border rounded p-3 h-100">
+                        <div class="fw-semibold mb-1">Ön Bilgilendirme</div>
+                        <small class="text-muted">
+                            Muhtemel durumlar hakkında bilgilendirme yapılır.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Şikayetini Anlat
+                        </label>
+                        <textarea id="aiUserText"
+                                  class="form-control"
+                                  rows="5"
+                                  placeholder="Örn: Son birkaç gündür baş ağrısı, mide bulantısı ve halsizlik yaşıyorum...">
+                        </textarea>
+                    </div>
+
+                
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <button class="btn btn-primary px-4" onclick="openAiModal()">
+                            🧠 Yapay Zekaya Danış
+                        </button>
+
+                        <small class="text-muted">
+                            ⚠️ Bu sistem tıbbi teşhis koymaz, yalnızca yönlendirme sağlar.
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-
-        <div class="ai-health-body">
-            <textarea id="aiUserText"
-                      class="form-control ai-textarea"
-                      rows="4"
-                      placeholder="Örn: Son birkaç gündür baş ağrım var, mide bulantısı yaşıyorum..."></textarea>
-
-            <button class="btn btn-gradient w-100 mt-3"
-                    onclick="openAiModal()">
-                🤖 Yapay Zekaya Sor
-            </button>
-        </div>
-
-        <div class="ai-health-footer">
-            <small>
-                ⚠️ Bu yönlendirme bilgilendirme amaçlıdır, kesin tanı yerine geçmez.
-            </small>
-        </div>
-
     </div>
+
 </div>
+
+
 
 <div class="modal fade" id="aiModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -151,10 +199,10 @@
         const text = document.getElementById("aiUserText").value;
         if (!text) return;
 
-      
+
         $("#aiModal").modal("show");
 
-   
+
         $("#aiLoading").show();
         $("#aiResult").hide();
         $("#btnAppointment").hide();
@@ -179,7 +227,7 @@
 
                 const data = res.data;
 
-            
+
                 $("#aiDepartment").text(data.Department);
                 $("#aiSuggestion").text(data.Suggestion);
 
@@ -189,13 +237,13 @@
 
                 $("#aiResult").fadeIn();
 
-            
+
                 $("#btnAppointment")
                     .off("click")
                     .on("click", function () {
                         window.location.href = "/Default/CreateAppointment";
                     })
-                    .fadeIn();   
+                    .fadeIn();
             })
             .catch(err => {
                 $("#aiLoading").hide();

@@ -1,8 +1,11 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.SignalR;
 using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
 using Medinova.Services;
+using Medinova.Services.AI;
+using Microsoft.AspNet.SignalR;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System;
@@ -29,10 +32,16 @@ namespace Medinova
             builder.RegisterType<DepartmentAnalyticsService>().AsSelf().InstancePerRequest();
             builder.RegisterType<DepartmentForecastMlService>().AsSelf().InstancePerRequest();
             builder.RegisterType<MlDashboardCardService>().AsSelf().InstancePerRequest();
+            builder.RegisterType<MedinovaAiChatService>().AsSelf().InstancePerRequest();
+            builder.RegisterHubs(Assembly.GetExecutingAssembly());
+
             var container = builder.Build();
             DependencyResolver.SetResolver(
-                new AutofacDependencyResolver(container)
+                new Autofac.Integration.Mvc.AutofacDependencyResolver(container)
             );
+
+            GlobalHost.DependencyResolver =
+                new Autofac.Integration.SignalR.AutofacDependencyResolver(container);
             Log.Logger = new LoggerConfiguration()
                             .Enrich.FromLogContext()
                             .Enrich.WithEnvironmentName()
@@ -45,7 +54,7 @@ namespace Medinova
              MinimumLogEventLevel = Serilog.Events.LogEventLevel.Information
          }))
      .CreateLogger();
-            GlobalFilters.Filters.Add(new AuthorizeAttribute());
+            GlobalFilters.Filters.Add(new System.Web.Mvc.AuthorizeAttribute());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
