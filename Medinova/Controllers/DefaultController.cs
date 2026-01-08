@@ -51,7 +51,6 @@ namespace Medinova.Controllers
             return PartialView();
         }
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult CreateAppointment()
         {
            

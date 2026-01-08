@@ -1,48 +1,63 @@
 ﻿    <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.signalR/2.4.3/jquery.signalR.min.js"></script>
-<script src="/signalr/hubs"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/easing/easing.min.js"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/waypoints/waypoints.min.js"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/owlcarousel/owl.carousel.min.js"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/tempusdominus/js/moment.min.js"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="~/Templates/Medinova-1.0.0/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-
 <script src="~/Templates/Medinova-1.0.0/js/main.js"></script>
 
 <script>
-    $(function () {
-        if (!$.connection || !$.connection.medinovaHealthChatHub) {
-            console.error("SignalR hub bulunamadı");
-            return;
+    (function () {
+        const track = document.getElementById("announcementTrack");
+        const wrapper = track.parentElement;
+
+        let position = wrapper.offsetWidth;
+        let speed = 4;
+        let paused = false;
+        let blinkCount = 0;
+
+        function scrollText() {
+            if (!paused) {
+                position -= speed;
+                track.style.transform = `translateX(${position}px)`;
+            }
+
+
+            const trackCenter = position + (track.offsetWidth / 2);
+            const wrapperCenter = wrapper.offsetWidth / 2;
+
+
+            if (!paused && Math.abs(trackCenter - wrapperCenter) < 2) {
+                paused = true;
+                blinkCount = 0;
+                blink();
+                return;
+            }
+
+
+            if (position < -track.offsetWidth) {
+                position = wrapper.offsetWidth;
+            }
+
+            requestAnimationFrame(scrollText);
         }
 
-        var hub = $.connection.medinovaHealthChatHub;
+        function blink() {
+            track.style.opacity = track.style.opacity === "0" ? "1" : "0";
+            blinkCount++;
 
-        hub.client.receiveMessage = function (sender, m) {
-            $("#chat").append(`<div><b>${sender}:</b> ${m}</div>`);
-        };
+            if (blinkCount < 6) {
+                setTimeout(blink, 180);
+            } else {
+                track.style.opacity = "1";
+                paused = false;
+                requestAnimationFrame(scrollText);
+            }
+        }
 
-        hub.client.receiveAiResult = function (r) {
-            $("#chat").append(`
-            <div class="mt-2">
-              <b>🏥 ${r.Department}</b><br/>
-              ${r.Reason}<br/>
-              <i>${r.Suggestion}</i>
-            </div>
-        `);
-        };
-
-        $.connection.hub.start().done(function () {
-            console.log("SignalR bağlandı");
-        });
-
-        $("#send").click(function () {
-            hub.server.sendMessage($("#msg").val());
-            $("#msg").val("");
-        });
-    });
+        scrollText();
+    })();
 </script>

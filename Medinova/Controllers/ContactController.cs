@@ -1,5 +1,7 @@
-﻿using Medinova.Models;
+﻿using Medinova.DTOs;
+using Medinova.Models;
 using Medinova.Repositories.GenericRepositories;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Medinova.Controllers
@@ -18,10 +20,6 @@ namespace Medinova.Controllers
         {
             var contact = _repo.GetFirstOrDefault();
             return View(contact);
-        }
-        public PartialViewResult _AiHealthChat()
-        {
-            return PartialView();
-        }
+        }     
     }
 }

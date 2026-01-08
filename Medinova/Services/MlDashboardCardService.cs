@@ -164,7 +164,9 @@ namespace Medinova.Services
                 .Select(x =>
                 {
                     int recencyScore = 0;
-                    int days = (now - x.LastDate.Value).Days;
+
+                    var lastDate = x.LastDate ?? now;
+                    int days = (now - lastDate).Days;
 
                     if (days <= 10)
                         recencyScore = 30;
@@ -195,6 +197,7 @@ namespace Medinova.Services
                 IconClass = "mdi mdi-account-heart"
             };
         }
+
 
 
         public DashboardCardDto GetTotalPatientForecast()

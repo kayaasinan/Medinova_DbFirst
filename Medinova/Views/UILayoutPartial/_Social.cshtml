@@ -1,37 +1,36 @@
-﻿<div class="container-fluid py-2 border-bottom d-none d-lg-block">
+﻿
+<div class="container-fluid py-2 border-bottom d-none d-lg-block bg-white">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-decoration-none text-body pe-3" href="#!">
-                        <i class="bi bi-telephone me-2"></i>+012
-                        345 6789
-                    </a>
-                    <span class="text-body">|</span>
-                    <a class="text-decoration-none text-body px-3" href="#!">
-                        <i class="bi bi-envelope me-2"></i>info@example.com
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-6 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-body px-2" href="#!">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-body px-2" href="#!">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-body px-2" href="#!">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-body px-2" href="#!">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-body ps-2" href="#!">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
+        <div class="announcement-wrapper">
+            <div class="announcement-track" id="announcementTrack">
+                🏥 Medinova Hastanesi | 7/24 Acil Servis Hizmeti
+                &nbsp;&nbsp;•&nbsp;&nbsp;
+                👨‍⚕️ Online Randevu Sistemi Aktif
+                &nbsp;&nbsp;•&nbsp;&nbsp;
+                🤖 Yapay Zeka Sağlık Asistanı Yayında
+                &nbsp;&nbsp;•&nbsp;&nbsp;
+                🎉 Check-Up Paketlerinde %20 İndirim
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .announcement-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        height: 22px;
+    }
+
+    .announcement-track {
+        position: absolute;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 600;
+        color: #0dcaf0;
+        will-change: transform, opacity;
+    }
+</style>
+
+
