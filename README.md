@@ -1,3 +1,12 @@
+![.NET Framework](https://img.shields.io/badge/.NET-Framework-blue)
+![ASP.NET MVC](https://img.shields.io/badge/ASP.NET-MVC-blueviolet)
+![ML.NET](https://img.shields.io/badge/ML.NET-Time%20Series-green)
+![OpenAI](https://img.shields.io/badge/OpenAI-API-black)
+![Docker](https://img.shields.io/badge/Docker-Desktop-2496ED)
+![Elasticsearch](https://img.shields.io/badge/Elasticsearch-ELK-005571)
+![Kibana](https://img.shields.io/badge/Kibana-Visualization-E8488B)
+![Serilog](https://img.shields.io/badge/Serilog-Logging-orange)
+
 # 🏥 Medinova | AI-Powered Healthcare Management System
 
 Medinova, **ASP.NET MVC (.NET Framework)** kullanılarak geliştirilmiş,  
