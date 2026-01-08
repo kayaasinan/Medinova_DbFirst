@@ -1,0 +1,176 @@
+[1mdiff --git a/Medinova/Areas/Doctor/Views/DoctorLayoutPartial/_DoctorLayoutSidebar.cshtml b/Medinova/Areas/Doctor/Views/DoctorLayoutPartial/_DoctorLayoutSidebar.cshtml[m
+[1mindex 01a61c5..8b6f808 100644[m
+[1m--- a/Medinova/Areas/Doctor/Views/DoctorLayoutPartial/_DoctorLayoutSidebar.cshtml[m
+[1m+++ b/Medinova/Areas/Doctor/Views/DoctorLayoutPartial/_DoctorLayoutSidebar.cshtml[m
+[36m@@ -22,7 +22,7 @@[m
+         <li class="nav-item">[m
+             <a class="nav-link" href="index.html">[m
+                 <i class="mdi mdi-home menu-icon"></i>[m
+[31m-                <span class="menu-title">Dashboard</span>[m
+[32m+[m[32m                <span class="menu-title">Randevular</span>[m
+             </a>[m
+         </li>[m
+         <li class="nav-item">[m
+[1mdiff --git a/Medinova/Controllers/ContactController.cs b/Medinova/Controllers/ContactController.cs[m
+[1mindex b7fc106..01bb1f4 100644[m
+[1m--- a/Medinova/Controllers/ContactController.cs[m
+[1m+++ b/Medinova/Controllers/ContactController.cs[m
+[36m@@ -1,5 +1,7 @@[m
+[31m-﻿using Medinova.Models;[m
+[32m+[m[32m﻿using Medinova.DTOs;[m
+[32m+[m[32musing Medinova.Models;[m
+ using Medinova.Repositories.GenericRepositories;[m
+[32m+[m[32musing System.Threading.Tasks;[m
+ using System.Web.Mvc;[m
+ [m
+ namespace Medinova.Controllers[m
+[36m@@ -18,10 +20,6 @@[m [mnamespace Medinova.Controllers[m
+         {[m
+             var contact = _repo.GetFirstOrDefault();[m
+             return View(contact);[m
+[31m-        }[m
+[31m-        public PartialViewResult _AiHealthChat()[m
+[31m-        {[m
+[31m-            return PartialView();[m
+[31m-        }[m
+[32m+[m[32m        }[m[41m     [m
+     }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/Medinova/Controllers/DefaultController.cs b/Medinova/Controllers/DefaultController.cs[m
+[1mindex 4d917dc..c050d67 100644[m
+[1m--- a/Medinova/Controllers/DefaultController.cs[m
+[1m+++ b/Medinova/Controllers/DefaultController.cs[m
+[36m@@ -51,7 +51,6 @@[m [mnamespace Medinova.Controllers[m
+             return PartialView();[m
+         }[m
+         [HttpGet][m
+[31m-        [AllowAnonymous][m
+         public ActionResult CreateAppointment()[m
+         {[m
+            [m
+[1mdiff --git a/Medinova/DTOs/MedinovaAiDepartmentResultDto.cs b/Medinova/DTOs/MedinovaAiDepartmentResultDto.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 907abdb..0000000[m
+[1m--- a/Medinova/DTOs/MedinovaAiDepartmentResultDto.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,9 +0,0 @@[m
+[31m-﻿namespace Medinova.DTOs[m
+[31m-{[m
+[31m-    public class MedinovaAiDepartmentResultDto[m
+[31m-    {[m
+[31m-        public string Department { get; set; }[m
+[31m-        public string Reason { get; set; }[m
+[31m-        public string Suggestion { get; set; }[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Medinova/DTOs/MedinovaAiRequestDto.cs b/Medinova/DTOs/MedinovaAiRequestDto.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 2772d4f..0000000[m
+[1m--- a/Medinova/DTOs/MedinovaAiRequestDto.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,8 +0,0 @@[m
+[31m-﻿namespace Medinova.DTOs[m
+[31m-{[m
+[31m-    public class MedinovaAiRequestDto[m
+[31m-    {[m
+[31m-        public string Complaint { get; set; }[m
+[31m-[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Medinova/Global.asax.cs b/Medinova/Global.asax.cs[m
+[1mindex 30df640..ba00640 100644[m
+[1m--- a/Medinova/Global.asax.cs[m
+[1m+++ b/Medinova/Global.asax.cs[m
+[36m@@ -1,11 +1,8 @@[m
+ ﻿using Autofac;[m
+ using Autofac.Integration.Mvc;[m
+[31m-using Autofac.Integration.SignalR;[m
+ using Medinova.Models;[m
+ using Medinova.Repositories.GenericRepositories;[m
+ using Medinova.Services;[m
+[31m-using Medinova.Services.AI;[m
+[31m-using Microsoft.AspNet.SignalR;[m
+ using Serilog;[m
+ using Serilog.Sinks.Elasticsearch;[m
+ using System;[m
+[36m@@ -32,16 +29,12 @@[m [mnamespace Medinova[m
+             builder.RegisterType<DepartmentAnalyticsService>().AsSelf().InstancePerRequest();[m
+             builder.RegisterType<DepartmentForecastMlService>().AsSelf().InstancePerRequest();[m
+             builder.RegisterType<MlDashboardCardService>().AsSelf().InstancePerRequest();[m
+[31m-            builder.RegisterType<MedinovaAiChatService>().AsSelf().InstancePerRequest();[m
+[31m-            builder.RegisterHubs(Assembly.GetExecutingAssembly());[m
+[32m+[m[41m     [m
+ [m
+             var container = builder.Build();[m
+             DependencyResolver.SetResolver([m
+[31m-                new Autofac.Integration.Mvc.AutofacDependencyResolver(container)[m
+[31m-            );[m
+[31m-[m
+[31m-            GlobalHost.DependencyResolver =[m
+[31m-                new Autofac.Integration.SignalR.AutofacDependencyResolver(container);[m
+[32m+[m[32m              new AutofacDependencyResolver(container)[m
+[32m+[m[32m          );[m
+             Log.Logger = new LoggerConfiguration()[m
+                             .Enrich.FromLogContext()[m
+                             .Enrich.WithEnvironmentName()[m
+[36m@@ -54,7 +47,7 @@[m [mnamespace Medinova[m
+              MinimumLogEventLevel = Serilog.Events.LogEventLevel.Information[m
+          }))[m
+      .CreateLogger();[m
+[31m-            GlobalFilters.Filters.Add(new System.Web.Mvc.AuthorizeAttribute());[m
+[32m+[m[32m            GlobalFilters.Filters.Add(new AuthorizeAttribute());[m
+             AreaRegistration.RegisterAllAreas();[m
+             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);[m
+             RouteConfig.RegisterRoutes(RouteTable.Routes);[m
+[1mdiff --git a/Medinova/Hubs/MedinovaHealthChatHub .cs b/Medinova/Hubs/MedinovaHealthChatHub .cs[m
+[1mdeleted file mode 100644[m
+[1mindex 023830f..0000000[m
+[1m--- a/Medinova/Hubs/MedinovaHealthChatHub .cs[m	
+[1m+++ /dev/null[m
+[36m@@ -1,24 +0,0 @@[m
+[31m-﻿using Medinova.Services.AI;[m
+[31m-using Microsoft.AspNet.SignalR;[m
+[31m-using System.Threading.Tasks;[m
+[31m-using System.Web.Mvc;[m
+[31m-[m
+[31m-namespace Medinova.Hubs[m
+[31m-{[m
+[31m-    public class MedinovaHealthChatHub : Hub[m
+[31m-    {[m
+[31m-        public async Task SendMessage(string userMessage)[m
+[31m-        {[m
+[31m-            var aiChatService =[m
+[31m-                DependencyResolver.Current.GetService<MedinovaAiChatService>();[m
+[31m-[m
+[31m-            await Clients.Caller.receiveMessage("Hasta", userMessage);[m
+[31m-[m
+[31m-            var aiResult =[m
+[31m-                await aiChatService.GetDepartmentSuggestionAsync(userMessage);[m
+[31m-[m
+[31m-            await Clients.Caller.receiveAiResult(aiResult);[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-}[m
+[1mdiff --git a/Medinova/Medinova.csproj b/Medinova/Medinova.csproj[m
+[1mindex 38e0ff5..0e29eda 100644[m
+[1m--- a/Medinova/Medinova.csproj[m
+[1m+++ b/Medinova/Medinova.csproj[m
+[36m@@ -56,9 +56,6 @@[m
+     <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">[m
+       <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>[m
+     </Reference>[m
+[31m-    <Reference Include="Autofac.Integration.SignalR, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">[m
+[31m-      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>[m
+[31m-    </Reference>[m
+     <Reference Include="Elasticsearch.Net, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">[m
+       <HintPath>..\packages\Elasticsearch.Net.7.17.5\lib\net461\Elasticsearch.Net.dll</HintPath>[m
+     </Reference>[m
+[36m@@ -68,15 +65,6 @@[m
+     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">[m
+       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>[m
+     </Reference>[m
+[31m-    <Reference Include="Microsoft.AspNet.SignalR.Core, Ver
